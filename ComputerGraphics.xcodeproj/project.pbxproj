@@ -32,6 +32,7 @@
 		428601CD2BED052B00FA88A2 /* hw1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw1.c; sourceTree = "<group>"; };
 		428F31CA2BB5C8FE00F3137C /* hw1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw1.c; sourceTree = "<group>"; };
 		428F31CD2BB6A7A500F3137C /* hw2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw2.c; sourceTree = "<group>"; };
+		42ACB4862BF6435900A8771D /* hw1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw1.c; sourceTree = "<group>"; };
 		42BD03B82BB5BC2600C7CB21 /* hw1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw1.c; sourceTree = "<group>"; };
 		42BD03B92BB5BC4100C7CB21 /* hw2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw2.c; sourceTree = "<group>"; };
 		42BD03BA2BB5BC5C00C7CB21 /* hw3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw3.c; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 				423410D82BB5100C009E9369 /* HW2 */,
 				42FB96A92BDCD33A00620B0E /* HW3 */,
 				428601CC2BED04B400FA88A2 /* HW4 */,
+				42ACB4852BF6432700A8771D /* HW5 */,
 			);
 			path = Homework;
 			sourceTree = "<group>";
@@ -128,6 +130,14 @@
 				428601CD2BED052B00FA88A2 /* hw1.c */,
 			);
 			path = HW4;
+			sourceTree = "<group>";
+		};
+		42ACB4852BF6432700A8771D /* HW5 */ = {
+			isa = PBXGroup;
+			children = (
+				42ACB4862BF6435900A8771D /* hw1.c */,
+			);
+			path = HW5;
 			sourceTree = "<group>";
 		};
 		42FB96A92BDCD33A00620B0E /* HW3 */ = {
