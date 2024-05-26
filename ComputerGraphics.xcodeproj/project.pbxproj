@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		423410C22BB50144009E9369 /* ComputerGraphics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ComputerGraphics; sourceTree = BUILT_PRODUCTS_DIR; };
-		423410C52BB50144009E9369 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		423410C52BB50144009E9369 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; usesTabs = 0; };
 		423410CD2BB5018F009E9369 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		423410D42BB50556009E9369 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		428601CD2BED052B00FA88A2 /* hw1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw1.c; sourceTree = "<group>"; };
@@ -39,6 +39,10 @@
 		42BD03BB2BB5BC6600C7CB21 /* hw4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw4.c; sourceTree = "<group>"; };
 		42BD03BC2BB5BC7000C7CB21 /* hw5.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw5.c; sourceTree = "<group>"; };
 		42BD03BD2BB5BC9600C7CB21 /* hw6.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw6.c; sourceTree = "<group>"; };
+		42D74A6F2C008ED700F834E9 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		42D74A792C0096A700F834E9 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		42D74A7B2C0096B200F834E9 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		42D74A7F2C00970F00F834E9 /* third.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third.png; sourceTree = "<group>"; };
 		42FB96AA2BDCD3DC00620B0E /* hw1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hw1.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,8 +79,12 @@
 		423410C42BB50144009E9369 /* ComputerGraphics */ = {
 			isa = PBXGroup;
 			children = (
-				423410D62BB50FDF009E9369 /* Homework */,
+				42D74A792C0096A700F834E9 /* first.png */,
+				42D74A7B2C0096B200F834E9 /* second.png */,
+				42D74A7F2C00970F00F834E9 /* third.png */,
+				42D74A6F2C008ED700F834E9 /* stb_image.h */,
 				423410C52BB50144009E9369 /* main.c */,
+				423410D62BB50FDF009E9369 /* Homework */,
 			);
 			path = ComputerGraphics;
 			sourceTree = "<group>";

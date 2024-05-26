@@ -2,61 +2,98 @@
 #include <stdlib.h>
 #include <OpenGL/gl.h>
 #include <GL/glut.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 int mouseCurX = -1;
 int rotationAngle = 0;
+GLuint texName[3];
 
-GLfloat light0_position[] = {
-    2.0,
-    5.0,
-    2.0,
-    1.0
-};
-GLfloat light0_diffuse[] = {
-    4.5,
-    1.0,
-    1.0,
-    1.0
-};
-GLfloat light0_ambient[] = {
-    0.2,
-    0.2,
-    0.2,
-    1.0
-};
-GLfloat light0_specular[] = {
-    1.0,
-    1.0,
-    1.0,
-    1.0
-};
+void loadTexture(const char* filename, int textureID) {
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(filename, &width, &height, &nrChannels, 0);
+    if (!data) {
+        printf("Failed to load texture: %s\n", filename);
+        printf("Reason: %s\n", stbi_failure_reason());
+        return;
+    }
 
-GLfloat light1_position[] = {
-    0.0,
-    0.0,
-    5.0,
-    1.0
-};
-GLfloat light1_diffuse[] = {
-    0.0,
-    0.0,
-    1.0,
-    1.0
-};
-GLfloat light1_ambient[] = {
-    0.1,
-    0.1,
-    0.1,
-    1.0
-};
-GLfloat light1_specular[] = {
-    0.0,
-    0.0,
-    1.0,
-    1.0
-};
+    glGenTextures(1, &texName[textureID]);
+    glBindTexture(GL_TEXTURE_2D, texName[textureID]);
+
+    // Set texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // Set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Generate texture
+    if (nrChannels == 4)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    else if (nrChannels == 3)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+    stbi_image_free(data);
+}
+GLfloat light0_position[] = {2.0, 5.0, 2.0, 1.0};
+GLfloat light0_diffuse[] = {4.5, 1.0, 1.0, 1.0};
+GLfloat light0_ambient[] = {0.2, 0.2, 0.2, 1.0};
+GLfloat light0_specular[] = {1.0, 1.0, 1.0, 1.0};
+
+GLfloat light1_position[] = {0.0, 0.0, 5.0, 1.0};
+GLfloat light1_diffuse[] = {0.0, 0.0, 1.0, 1.0};
+GLfloat light1_ambient[] = {0.1, 0.1, 0.1, 1.0};
+GLfloat light1_specular[] = {0.0, 0.0, 1.0, 1.0};
+
+void drawTexturedCube() {
+    
+    glBegin(GL_QUADS); // 큐브의 각 면을 그리기 시작합니다.
+    
+    // 전면
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5f, -0.5f,  0.5f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 0.5f, -0.5f,  0.5f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 0.5f,  0.5f,  0.5f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.5f,  0.5f,  0.5f);
+    
+    // 뒷면
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.5f,  0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 0.5f,  0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 0.5f, -0.5f, -0.5f);
+    
+    // 상단
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.5f,  0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5f,  0.5f,  0.5f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 0.5f,  0.5f,  0.5f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 0.5f,  0.5f, -0.5f);
+    
+    // 하단
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 0.5f, -0.5f, -0.5f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 0.5f, -0.5f,  0.5f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f,  0.5f);
+    
+    // 오른쪽 면
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 0.5f,  0.5f, -0.5f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 0.5f,  0.5f,  0.5f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f( 0.5f, -0.5f,  0.5f);
+    
+    // 왼쪽 면
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-0.5f, -0.5f, -0.5f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-0.5f, -0.5f,  0.5f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-0.5f,  0.5f,  0.5f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-0.5f,  0.5f, -0.5f);
+    
+    glEnd(); // 면 그리기 종료
+    
+    glDisable(GL_TEXTURE_2D);
+}
+
 
 void drawWalls() {
+    
     GLfloat wall_ambient[] = {
         0.9,
         0.7,
@@ -83,24 +120,26 @@ void drawWalls() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, wall_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, wall_shininess);
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName[0]);
     
     glPushMatrix();
     glTranslatef(0.0, -1.5, 0.0);
     glScalef(9.0, 0.1, 7.0);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     
     glTranslatef(0.0, 0.95, -3.5);
     glScalef(9.0, 5.0, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(4.5, 0.95, 0.0);
     glScalef(0.1, 5.0, 7.0);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
 }
 void drawCabinet() {
@@ -131,31 +170,33 @@ void drawCabinet() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, cabinet_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, cabinet_shininess);
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName[1]);
     
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 5; j++) {
             glPushMatrix();
             glTranslatef(-2.3 + j * 1.2, 3.0 - i * 0.6, -3.2);
             glScalef(1.0, 0.05, 0.5);
-            glutSolidCube(1.0);
+            drawTexturedCube();
             glPopMatrix();
             
             glPushMatrix();
             glTranslatef(-2.3 + j * 1.2, 2.5 - i * 0.6, -3.2);
             glScalef(1.0, 0.05, 0.5);
-            glutSolidCube(1.0);
+            drawTexturedCube();
             glPopMatrix();
             
             glPushMatrix();
             glTranslatef(-2.8 + j * 1.2, 2.75 - i * 0.6, -3.2);
             glScalef(0.05, 0.5, 0.5);
-            glutSolidCube(1.0);
+            drawTexturedCube();
             glPopMatrix();
             
             glPushMatrix();
             glTranslatef(-1.8 + j * 1.2, 2.75 - i * 0.6, -3.2);
             glScalef(0.05, 0.5, 0.5);
-            glutSolidCube(1.0);
+            drawTexturedCube();
             glPopMatrix();
             
         }
@@ -164,6 +205,7 @@ void drawCabinet() {
 }
 
 void drawTable() {
+
     // 테이블의 재질 설정
     GLfloat table_ambient[] = {
         0.7,
@@ -191,40 +233,42 @@ void drawTable() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, table_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, table_shininess);
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName[1]);
+    
     glPushMatrix();
     glTranslatef(-1.3, 0.1, -2.7);
     glScalef(4.5, 0.1, 1.5);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(0.9, -0.75, -3.4);
     glScalef(0.1, 1.6, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(0.9, -0.75, -2.0);
     glScalef(0.1, 1.6, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(-3.5, -0.75, -3.4);
     glScalef(0.1, 1.6, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(-3.5, -0.75, -2.0);
     glScalef(0.1, 1.6, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
 }
 
 void drawChair() {
-    
     GLfloat chair_ambient[] = {
         0.6,
         0.4,
@@ -251,43 +295,45 @@ void drawChair() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, chair_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, chair_shininess);
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName[1]);
     
     glPushMatrix();
     glTranslatef(-2.3, -0.5, -2.0);
     glScalef(1.0, 0.1, 1.2);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     
     glPushMatrix();
     glTranslatef(-2.3, 0.3, -1.4);
     glScalef(1.1, 0.5, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     
     glPushMatrix();
     glTranslatef(-2.7, -1.0, -2.5);
     glScalef(0.1, 0.8, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(-2.8, -1.0, -1.4);
     glScalef(0.1, 2.1, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(-2.3, -1.0, -2.5);
     glScalef(0.1, 0.8, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(-1.8, -1.0, -1.4);
     glScalef(0.1, 2.1, 0.1);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
 }
 
@@ -323,7 +369,7 @@ void drawBed() {
     glPushMatrix();
     glTranslatef(3.2, -1.1, -1.5);
     glScalef(2.5, 0.7, 4.0);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     GLfloat matrix_ambient[] = {
@@ -353,18 +399,21 @@ void drawBed() {
     glMaterialfv(GL_FRONT, GL_SHININESS, matrix_shininess);
     
     
+    
     glPushMatrix();
     glTranslatef(3.2, -0.7, -1.5);
     glScalef(2.5, 0.2, 4.0);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName[1]);
     
     glPushMatrix();
     glTranslatef(3.2, -0.2, -3.2);
     glRotatef(-30, 0.0, 0.0, 0.0);
     glScalef(1.2, 0.8, 0.2);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
 }
@@ -401,7 +450,7 @@ void drawWindow() {
     glPushMatrix();
     glTranslatef(4.45, 1.3, -1);
     glScalef(0.01, 2.5, 3.5);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     GLfloat innerframe_ambient[] = {
@@ -430,16 +479,19 @@ void drawWindow() {
     glMaterialfv(GL_FRONT, GL_SPECULAR, innerframe_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, innerframe_shininess);
     
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texName[0]);
+    
     glPushMatrix();
     glTranslatef(4.44, 1.3, -1.6);
     glScalef(0.01, 2.0, 1.6);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
     
     glPushMatrix();
     glTranslatef(4.44, 1.3, 0.0);
     glScalef(0.01, 2.0, 1.2);
-    glutSolidCube(1.0);
+    drawTexturedCube();
     glPopMatrix();
 }
 
@@ -478,7 +530,7 @@ void mydisplay(void) {
     gluLookAt(-6.0, 3.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     glRotatef(rotationAngle, 0.0, 1.0, 0.0);
     
-    glEnable(GL_LIGHTING);
+    glEnable(GL_NORMALIZE);
     
     glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
@@ -507,6 +559,11 @@ void init(void) {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
+    loadTexture("first.png", 0);
+    loadTexture("second.png", 1);
+    loadTexture("third.png", 2);
+    glEnable(GL_TEXTURE_2D);
+
 }
 
 void mouseMotion(int x, int y) {
@@ -551,7 +608,7 @@ int main(int argc, char ** argv) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(800, 800);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Room with Furniture");
+    glutCreateWindow("20011675 류태호");
     glutDisplayFunc(mydisplay);
     glutMotionFunc(mouseMotion);
     glutMouseFunc(mouse);
