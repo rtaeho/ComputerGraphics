@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		420C5C5F2BF5A40B00B20CE9 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 423410C52BB50144009E9369 /* main.c */; };
 		423410CE2BB5018F009E9369 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423410CD2BB5018F009E9369 /* OpenGL.framework */; };
 		423410D52BB50556009E9369 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423410D42BB50556009E9369 /* GLUT.framework */; };
+		42FDD9F42C25657C00EBA5EF /* hw1.c in Sources */ = {isa = PBXBuildFile; fileRef = 42ACB4862BF6435900A8771D /* hw1.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -213,7 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				420C5C5F2BF5A40B00B20CE9 /* main.c in Sources */,
+				42FDD9F42C25657C00EBA5EF /* hw1.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
